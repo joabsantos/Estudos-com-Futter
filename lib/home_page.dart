@@ -4,28 +4,49 @@ import 'package:aula/pages/hello_page2.dart';
 import 'package:aula/pages/hello_page3.dart';
 import 'package:aula/utis/nav.dart';
 import 'package:aula/widgets/blue_button.dart';
+import 'package:aula/widgets/drawer_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
         appBar: AppBar(
+          bottom: TabBar(tabs: [
+            Tab(text: "TAB 1"),
+            Tab(text: "TAB 2"),
+          ]),
           title: Text(
             'Hello Flutter',
           ),
           centerTitle: true,
         ),
-        body: _body(context));
+        body: TabBarView(children: [
+          _body(context),
+          Container(),
+        ]),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            _onClickFab();
+          },
+          child: Icon(Icons.add),
+        ),
+        drawer: DrawerList(),
+      ),
+    );
   }
 
   _body(context) {
     return Container(
       color: Colors.white,
+      padding: EdgeInsets.only(top: 16),
       child: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             _text(),
             _pageView(),
@@ -144,5 +165,18 @@ class HomePage extends StatelessWidget {
         });
   }
 
-  _onToast() {}
+  _onToast() {
+    Fluttertoast.showToast(
+        msg: "This is Center Short Toast",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIos: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
+  }
+
+  void _onClickFab() {
+    print("Adicionar");
+  }
 }
